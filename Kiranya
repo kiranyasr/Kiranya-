@@ -1,0 +1,25 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Define a dictionary of predefined responses
+responses = {
+    "hello": "Hi there!",
+    "how are you": "I'm good, thank you!",
+    "bye": "Goodbye! Have a great day!"
+}
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    # Get user input from the request body
+    data = request.json
+    user_message = data["message"].lower()
+
+    # Lookup response in the dictionary
+    response = responses.get(user_message, "I'm sorry, I didn't understand that.")
+
+    # Return the response
+    return jsonify({"response": response})
+
+if __name__ == "__main__":
+    app.run(debug=True)
